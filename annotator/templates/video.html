@@ -22,132 +22,132 @@
 {% endblock %}
 
 {% block body %}
-  <div class=" {{ iframe_mode|yesno:'empty, panel panel-default panel-space'}}   player-container" id="player">
-    <div class="row">
-
-      <div id="fixed-panel" class="col-lg-12">
-        <div class="panel-body">
-
-          <div>
-            <label for="object-radio-car" class="label label-danger">
-              Car
-              <input type="radio" name="object" id="object-radio-car" value="car" checked>
-            </label>
-            <label for="object-radio-pedestrian" class="label label-primary">
-              Pedestrian
-              <input type="radio" name="object" id="object-radio-pedestrian" value="pedestrian">
-            </label>
-            <label for="object-radio-bicycle" class="label label-success">
-              Bicycle
-              <input type="radio" name="object" id="object-radio-bicycle" value="bicycle">
-            </label>
-            <label for="object-radio-traffic-light" class="label label-info">
-              Traffic Light
-              <input type="radio" name="object" id="object-radio-traffic-light" value="traffic-light">
-            </label>
-            <label for="object-radio-pedestrian-signal" class="label label-warning">
-              Pedestrian Signal
-              <input type="radio" name="object" id="object-radio-pedestrian-signal" value="pedestrian-signal">
-            </label>
-            <label for="object-radio-crosswalk" class="label label-default">
-              Crosswalk
-              <input type="radio" name="object" id="object-radio-crosswalk" value="crosswalk">
-            </label>
-            <a class="btn btn-default" href="https://github.com/antingshen/BeaverDam/wiki/Single-Image-Labeling-Task" target="_blank" style="margin-left: 25px;">Instructions &amp; Requirements</a>
-
-            <div id="submit-container">
-            {% if mturk_data.preview == False %}
-              {% if mturk_data.authenticated %}
-              <form method="post" id="turk-form" action="https://{{ mturk_data.sandbox|yesno:'workersandbox,www'}}.mturk.com/mturk/externalSubmit">
+  <!--swapped out the below temporarily to make it fit without scrolling
+      <div class=" {{ iframe_mode|yesno:'empty, panel panel-default panel-space'}}   player-container" id="player">-->
+  <div class="panel-space" id="player">
+    
+    <div id="row1">
+        <div class="player-screen">
+                <video class="player-video"></video>
+                <div class="player-paper"></div>
+        </div>
+        <div class="label-bar">
+            <div style="display:flex;flex-direction:column">
+                <label for="object-radio-car" class="label label-danger">
+                    Car
+                    <input type="radio" name="object" id="object-radio-car" value="car" checked>
+                </label>
+                <label for="object-radio-pedestrian" class="label label-primary">
+                    Pedestrian
+                    <input type="radio" name="object" id="object-radio-pedestrian" value="pedestrian">
+                </label>
+                <label for="object-radio-bicycle" class="label label-success">
+                    Bicycle
+                    <input type="radio" name="object" id="object-radio-bicycle" value="bicycle">
+                </label>
+                <label for="object-radio-traffic-light" class="label label-info">
+                    Traffic Light
+                    <input type="radio" name="object" id="object-radio-traffic-light" value="traffic-light">
+                </label>
+                <label for="object-radio-pedestrian-signal" class="label label-warning">
+                    Pedestrian Signal
+                    <input type="radio" name="object" id="object-radio-pedestrian-signal" value="pedestrian-signal">
+                </label>
+                <label for="object-radio-crosswalk" class="label label-default">
+                    Crosswalk
+                    <input type="radio" name="object" id="object-radio-crosswalk" value="crosswalk">
+                </label>
+                <a class="btn btn-default" href="https://github.com/antingshen/BeaverDam/wiki/Single-Image-Labeling-Task" target="_blank"
+                style="<margin-></margin->left: 25px;">Instructions &amp; Requirements</a>
+            </div>
+            <div>
+                <ul id="shape-list" class="list-group">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="row2">
+        <div class="panel-primary">
+            <div class="panel-heading">
+                <div class="panel-controls">
+                    <div class="glyphicon glyphicon-step-backward player-control-goto-start"></div>
+                    <div class="glyphicon glyphicon-play player-control-play"></div>
+                    <div class="glyphicon glyphicon-pause player-control-pause"></div>
+                    <div class="glyphicon glyphicon-step-forward player-control-goto-end"></div>
+                    <div class="glyphicon glyphicon-trash player-control-delete-keyframe"></div>
+                    <input class="form-control player-control-time" id="frame-number" placeholder="0">
+                    
+                </div>
+                <div class="slider-content">
+                    <div class="panel-success">
+                        <!-- <div class="panel-heading style="background-color: #3A7734"> -->
+                        <div class="player-keyframebar"></div>
+                        <!-- </div> -->
+                    </div>
+                    <input class="player-control-scrubber" type="range" min="0" max="10000" value="0" step="1" />
+                </div>
+            </div>
+        </div>
+        <div id="submit-container">
+            {% if mturk_data.preview == False %} {% if mturk_data.authenticated %}
+            <form method="post" id="turk-form" action="https://{{ mturk_data.sandbox|yesno:'workersandbox,www'}}.mturk.com/mturk/externalSubmit">
                 <input type="hidden" value="{{ mturk_data.assignment_id }}" name="assignmentId">
                 <input type="hidden" value="{{ video_data.id }}" name="video-id">
-                <button id="submit-btn" type="submit"  class="btn btn-primary">Submit</button>
-              </form>
+                <button id="submit-btn" type="submit" class="btn btn-primary">Submit</button>
+            </form>
 
-              {% else %}
-              <div id="submit-btn-group" class="btn-group" role="group">
+            {% else %}
+            <div id="submit-btn-group" class="btn-group" role="group">
                 {% if request.user.is_staff == False %}
-                <button id="submit-btn" type="button" class="btn btn-primary">Submit</button>
-                {% else %}
+                <button id="submit-btn" type="button" class="btn btn-primary">Submit</button> {% else %}
                 <button id="submit-btn" type="button" class="btn btn-primary">Save</button>
 
-                <button id="verified-btn" type="button" class="btn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&hellip;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
-                {% endif %}
-              </div>
-              {% endif %}
+                <button id="verified-btn" type="button" class="btn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&hellip;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>                            {% endif %}
+            </div>
+                {% endif %} 
+            
             {% else %}
-              <h2>Preview Mode: Please accept HIT before working</h2>
+            <h2>Preview Mode: Please accept HIT before working</h2>
             {% endif %}
-            </div>
-          </div>
-
-          <div class="player-screen">
-            <video class="player-video"></video>
-            <div class="player-paper"></div>
-          </div>
-
-          <div class="panel panel-primary">
-            <div class="panel-heading">
-              <input class="player-control-scrubber" type="range" min="0" max="10000" value="0" step="1"/>
-              <div class="panel panel-success">
-                <!-- <div class="panel-heading style="background-color: #3A7734"> -->
-                  <div class="player-keyframebar"></div>
-                <!-- </div> -->
-              </div>
-
-              <div class="glyphicon glyphicon-step-backward player-control-goto-start"></div>
-              <div class="glyphicon glyphicon-play player-control-play"></div>
-              <div class="glyphicon glyphicon-pause player-control-pause"></div>
-              <div class="glyphicon glyphicon-step-forward player-control-goto-end"></div>
-              <div class="glyphicon glyphicon-trash player-control-delete-keyframe"></div>
-              <input class="form-control player-control-time" id="frame-number" placeholder="0">
-            </div>
-          </div>
-
         </div>
-      </div>
-
-      <div class="col-xs-6 col-md-4">
-        <ul id="shape-list" class="list-group row">
-        </ul>
-      </div>
-
     </div>
+
+
+
 
     <!-- Modal -->
     <div class="modal fade" id="myModal" role="dialog">
-      <div class="modal-dialog">
-      
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title submit-result"></h4>
-          </div>
-          <script>
-            const numberOfSurveyQuestions = {% if survey %} 2 {% else %} 0 {% endif %};
-          </script>
-          {% if survey %}
-          <div>
-            <p>Are there way too many cars to label?</p>
-            <label class="radio-inline"><input type="radio" name="survey-q1" value="yes">Yes</label>
-            <label class="radio-inline"><input type="radio" name="survey-q1" value="no">No</label></br>
+        <div class="modal-dialog">
 
-            <p>Is there too much clutter in the video to be used as training data?</p>
-            <label class="radio-inline"><input type="radio" name="survey-q2" value="yes">Yes</label>
-            <label class="radio-inline"><input type="radio" name="survey-q2" value="no">No</label></br>
-          </div>
-          {% endif %}
-          <div class="modal-footer">
-            {% if mturk_data.authenticated == False %}
-              <a class="btn btn-primary" href="{{ request.path }}next">Next Video</a>
-            {% endif %}
-            <button id="submit-survey-btn" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title submit-result"></h4>
+                </div>
+                <script>
+                    const numberOfSurveyQuestions = {% if survey %} 2 {% else %} 0 {% endif %};
+                </script> 
+                {% if survey %}
+                <div>
+                    <p>Are there way too many cars to label?</p>
+                    <label class="radio-inline"><input type="radio" name="survey-q1" value="yes">Yes</label>
+                    <label class="radio-inline"><input type="radio" name="survey-q1" value="no">No</label></br>
+
+                    <p>Is there too much clutter in the video to be used as training data?</p>
+                    <label class="radio-inline"><input type="radio" name="survey-q2" value="yes">Yes</label>
+                    <label class="radio-inline"><input type="radio" name="survey-q2" value="no">No</label></br>
+                </div>
+                {% endif %}
+                <div class="modal-footer">
+                    {% if mturk_data.authenticated == False %}
+                    <a class="btn btn-primary" href="{{ request.path }}next">Next Video</a> {% endif %}
+                    <button id="submit-survey-btn" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
         </div>
-        
-      </div>
     </div>
-  
+
 
 {% endblock %}

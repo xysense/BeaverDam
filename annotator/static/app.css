@@ -1,34 +1,43 @@
-/* Player */
 
+html,
+body {
+    height: 100%;
+    margin: 0;
+    background: black;
+}
+
+/* Player */
 .player-screen {
-    margin: 1em 0 0.5em;
-    position: relative;
-    overflow: hidden;
-    /*padding: 30px;*/
-    /*background-color: #b2b2b2;*/
-    /*border-radius: 5px;*/
+    flex: 1 0 0;
+    display:flex;
 }
+
 .player-video {
-    top: 0;
-    width: auto;
-    height: auto;
-    max-width: 100%;
-    max-height: 100%;
+    width:100%;
+    height:100%;
 }
+
 .player-paper {
     position: absolute;
+
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
+    
+    opacity: 0;
+    background-color: #ffffff;
+
 }
 
 .player-keyframebar {
     position: relative;
     margin-left: 6px;
     margin-right: 6px;
-    height: 2.5em;
+    height: 2em;
+    background: white;
 }
+
 .player-keyframebar-keyframe {
     position: absolute;
     color: orange;
@@ -37,18 +46,27 @@
     top: 0;
     margin-left: -.7em;
 }
+
 .player-keyframebar-keyframe-noselected {
     top: 1.1em;
     opacity: 0.3;
 }
+
 .player-keyframebar-keyframe-noselected:hover {
     opacity: 0.7;
 }
+
 .player-keyframebar-keyframe circle {
     stroke: #902B00;
     stroke-width: 7px;
     fill: #FF8000;
 }
+
+.glyphicon {
+    margin-left:2px;
+    margin-right:2px;
+}
+
 .player-keyframebar-keyframe:hover:not(:active) circle {
     fill: #C25305;
 }
@@ -57,20 +75,25 @@
     stroke: black;
     stroke-width: 3px;
 }
+
 .player-rect-selected {
     stroke-opacity: 1;
     opacity: 0.5;
 }
+
 .player-rect-noselected {
     stroke-opacity: 0.5;
     opacity: 0.4;
 }
+
 .player-rect-real {
     stroke-dasharray: none;
 }
+
 .player-rect-noreal {
     stroke-dasharray: 8, 4;
 }
+
 .player-rect-noselected.player-rect-noreal.player-rect-nosinglekeyframe {
     display: none;
 }
@@ -83,6 +106,7 @@
     stroke-opacity: 1;
     stroke-width: 3px;
 }
+
 .player-rect-noactive {
     fill: transparent;
     stroke: transparent;
@@ -91,21 +115,27 @@
 }
 
 
+/*****
+FLEX BOX LAYOUT
+*/
 
-/* Uncategorized rules below */
-
-#fixed-panel {
-    text-align: left;
-    margin-right: 0px;
+#row1 {
+    flex: 1 0 0;
+    display: flex;
 }
 
-#left-container {
-    padding-left: 0px;
-    margin-left: 0px;
-    width: 841px;
-    display: inline-block;
+#row2 {
+    display: flex;
+    flex: 0 0 auto;
+    padding: 3px;
+}
 
-    margin-top: 0;
+
+/* Uncategorized rules below */
+.label-bar {
+    flex: 0 1 auto;
+    display:flex;
+    flex-direction:column;  
 }
 
 #frame-number {
@@ -114,13 +144,34 @@
 }
 
 .panel-space {
-    margin: 50px;
+    margin: 0px;
+    background: black;
+    height:100%;
+    width:100%;
+    display:flex;
+    flex-direction: column;
+}
+
+.panel-primary {
+    flex: 1 1 auto;
+ 
+}
+.panel-controls {
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right:15px;
+}
+.panel-heading {
+    display:flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+.slider-content {
+    flex: 1 0 auto;
 }
 
 #submit-container {
-    display: inline-block;
-    position: absolute;
-    margin-left: 300px;
-    top: 10px;
-    right: 20px;
+    padding-left: 5px;
+    margin-left: 0px;
 }

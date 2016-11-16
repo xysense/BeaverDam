@@ -85,21 +85,31 @@ class PlayerView {
     initPaper() {
         // Depends on this.videoReady for this.video.videoWidth/Height
         this.videoReady().then(() => {
-            var {videoWidth, videoHeight} = this.video;
+            
+            var {videoWidth, videoHeight, clientWidth, clientHeight} = this.video;
+        
+            var paperInDom = this.$('paper')[0];
+            this.$paper = Raphael(paperInDom, videoWidth, videoHeight);
 
-            this.$paper = Raphael(this.$('paper')[0], videoWidth, videoHeight);
+           // paperInDom.css({width:10, height:10});
+
+            
+            
             $(this.$paper.canvas).attr({
                 viewBox: `0 0 ${videoWidth} ${videoHeight}`
             }).removeAttr(
                 'width'
             ).removeAttr(
                 'height'
-            ).css({
+            )
+            .css({
                 position: 'static',
+                backgroundColor:'#00FF00',
+                opacity:0.5,
                 left: '',
                 top: '',
-                'max-width': `${videoWidth}px`,
-                'max-height': `${videoHeight}px`,
+                'max-width': `${clientWidth}px`,
+                'max-height': `${clientHeight}px`,
             });
             this.creationRect = this.makeAndAttachRect(CreationRect);
             this.rects = [];
@@ -112,6 +122,9 @@ class PlayerView {
             });
 
             this.paperReady.resolve();
+
+            paperInDom.width = 100;
+            paperInDom.height = 100;
         });
     }
 
