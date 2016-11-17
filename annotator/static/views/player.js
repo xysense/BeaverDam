@@ -22,7 +22,7 @@ class PlayerView {
         // Namespaced className generator
         this.classBaseName = new Misc.ClassNameGenerator('player');
 
-        // The invisible rect that receives drag events not targeted at speciifc 
+        // The invisible rect that receives drag events not targeted at speciifc
         this.creationRect = null;
 
         // The keyframebar
@@ -85,16 +85,12 @@ class PlayerView {
     initPaper() {
         // Depends on this.videoReady for this.video.videoWidth/Height
         this.videoReady().then(() => {
-            
-            var {videoWidth, videoHeight, clientWidth, clientHeight} = this.video;
-        
+
+            var {videoWidth, videoHeight} = this.video;
+
             var paperInDom = this.$('paper')[0];
             this.$paper = Raphael(paperInDom, videoWidth, videoHeight);
 
-           // paperInDom.css({width:10, height:10});
-
-            
-            
             $(this.$paper.canvas).attr({
                 viewBox: `0 0 ${videoWidth} ${videoHeight}`
             }).removeAttr(
@@ -103,13 +99,8 @@ class PlayerView {
                 'height'
             )
             .css({
-                position: 'static',
-                backgroundColor:'#00FF00',
-                opacity:0.5,
-                left: '',
-                top: '',
-                'max-width': `${clientWidth}px`,
-                'max-height': `${clientHeight}px`,
+                height: '100%',
+                overflow: 'hidden'
             });
             this.creationRect = this.makeAndAttachRect(CreationRect);
             this.rects = [];
@@ -241,7 +232,7 @@ class PlayerView {
         }
         else {
             this.video.currentTime -= 0.1;
-        }        
+        }
     }
 
     rewind() {
@@ -286,7 +277,7 @@ class PlayerView {
     }
 
     // Rect control
-    
+
     metrics() {
         return {
             offset: $(this.$paper.canvas).offset(),

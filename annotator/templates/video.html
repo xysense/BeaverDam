@@ -25,11 +25,13 @@
   <!--swapped out the below temporarily to make it fit without scrolling
       <div class=" {{ iframe_mode|yesno:'empty, panel panel-default panel-space'}}   player-container" id="player">-->
   <div class="panel-space" id="player">
-    
+
     <div id="row1">
         <div class="player-screen">
-                <video class="player-video"></video>
-                <div class="player-paper"></div>
+                <div class="player-container">
+                        <video class="player-video"></video>
+                        <div class="player-paper"></div>
+                </div>
         </div>
         <div class="label-bar">
             <div style="display:flex;flex-direction:column">
@@ -76,7 +78,7 @@
                     <div class="glyphicon glyphicon-step-forward player-control-goto-end"></div>
                     <div class="glyphicon glyphicon-trash player-control-delete-keyframe"></div>
                     <input class="form-control player-control-time" id="frame-number" placeholder="0">
-                    
+
                 </div>
                 <div class="slider-content">
                     <div class="panel-success">
@@ -104,8 +106,8 @@
 
                 <button id="verified-btn" type="button" class="btn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&hellip;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>                            {% endif %}
             </div>
-                {% endif %} 
-            
+                {% endif %}
+
             {% else %}
             <h2>Preview Mode: Please accept HIT before working</h2>
             {% endif %}
@@ -127,7 +129,7 @@
                 </div>
                 <script>
                     const numberOfSurveyQuestions = {% if survey %} 2 {% else %} 0 {% endif %};
-                </script> 
+                </script>
                 {% if survey %}
                 <div>
                     <p>Are there way too many cars to label?</p>
