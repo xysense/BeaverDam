@@ -34,6 +34,7 @@ body {
     margin-right: 6px;
     height: 2em;
     background: white;
+    border-radius: 4px;
 }
 
 .player-keyframebar-keyframe {
