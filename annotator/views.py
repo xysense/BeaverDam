@@ -1,3 +1,4 @@
+import logging
 from django.shortcuts import render, redirect
 from django.conf import settings
 from django.http import HttpResponse, Http404, HttpResponseBadRequest, HttpResponseForbidden
@@ -12,6 +13,8 @@ import json
 import mturk.utils
 from .models import *
 from mturk.models import Task, FullVideoTask, SingleFrameTask
+
+logger = logging.getLogger()
 
 def home(request):
     need_annotating = Video.objects.filter(id__gt=0, verified=False)
@@ -33,11 +36,9 @@ def verified_list(request):
     })
 
 def ready_to_pay(request):
-    #tasks = FullVideoTask.objects.filter(paid = False, video__verified = True).exclude(hit_id = '')
-    tasks = FullVideoTask.objects.all()#filter(paid = False, video__verified = True).exclude(hit_id = '')
-    print("there are {} tasks".format(len(tasks)))
+    tasks = FullVideoTask.objects.filter(video__verified = True, paid = False).exclude(hit_id = '')
     return render(request, 'turk_ready_to_pay.html', context={
-        'tasks': tasks,
+        'tasks': tasks
     })
 
 def next_unannotated(request, video_id):

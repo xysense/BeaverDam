@@ -9,7 +9,7 @@ def get_hit_for_video(full_video_task):
     res = mturk.request('GetHIT', {"HITId":full_video_task.hit_id})
     res.store("HIT/HITStatus", "status")
     res.store("HIT/HITId", "hitID")
-    print(full_video_task.video.filename)
+    print(full_video_task.video.id)
     print("   - status={}, hitid={}".format(res.status, res.hitID))
     # if res.has_path("GetAssignmentsForHITResult/Assignment") :
     #     res.store("GetAssignmentsForHITResult/Request/IsValid", "IsValid", bool)
@@ -39,7 +39,7 @@ def dump_all_tasks():
     for x in fvs:
         print(x.hit_id)
 
-tasks = FullVideoTask.objects.filter(sandbox = False).exclude(hit_id = '')
+tasks = FullVideoTask.objects.filter(paid = False, video__verified = True).exclude(hit_id = '')
 get_hits_for_video(tasks)
 #get_completed_videos()
 

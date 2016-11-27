@@ -7,18 +7,36 @@
       <th>Video Id</th>
       <th>Hit Id</th>
       <th>Calculated Bonus</th>
+      <th>Time Taken (minutes)</th>
+      <th>Hourly Rate</th>
       <th>File</th>
       <th>Link</th>
     </tr>
   </thead>
   <tbody>
     {% for video_task in tasks %}
-    <trstyle>
+    <tr>
       <td>{{ video_task.video.id }}</td>
       <td>{{ video_task.hit_id }}</td>
       <td>{{ video_task.bonus }}</td>
-      <td>{{ video_task.filename }}</td>
-      <td><a href="{% url "video" video_task.video.id %}">View Video</a> | <a href="/admin/mturk/fullvideotask/{{video_task.id}}">View Task</a></td>
+      <td>
+        <script>
+                var metrics = JSON.parse('{{ video_task.metrics }}'.split("&#39;").join('"'))
+                var minutes = (metrics.annotationsEndTime - metrics.annotationsStartTime)/1000/60;
+                document.writeln(Math.round(minutes*10)/10 );
+        </script>
+      </td>
+      <td>
+        <script>
+                document.writeln(60/minutes*{{video_task.bonus}} );
+        </script>
+      </td>
+      <td>{{ video_task.video.filename }}</td>
+      <td>
+                <a href="{% url "video" video_task.video.id %}">Video</a> | 
+                <a href="/admin/mturk/fullvideotask/{{video_task.id}}">Task</a> | 
+                <a href="https://requester.mturk.com//mturk/manageHIT?viewableEditPane=&amp;HITId={{video_task.hit_id}}">Turk</a>
+        </td>
     </tr>
     {% endfor %}
   </tbody>

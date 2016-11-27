@@ -55,6 +55,12 @@ class Task(models.Model):
         #mturk.bonus(self.worker_id, assignment_id, self.calculate_bonus(), self.verbalise_bonus())
         #mturk.accept(assignment_id)
 
+    def approve_assignment(self, worker_id, assignment_id, message):
+        mturk.accept(assignment_id, message)
+        mturk.bonus(self.worker_id, assignment_id, self.calculate_bonus(), self.verbalise_bonus())
+        self.paid = True
+        self.save()
+
     def calculate_bonus(self):
         return 0
 
